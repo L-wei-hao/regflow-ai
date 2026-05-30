@@ -51,7 +51,7 @@ def root_metadata() -> dict[str, Any]:
         ],
         "database_engine": database_config.engine,
         "database_bootstrap_path": str(POSTGRES_BOOTSTRAP_PATH),
-        "next_milestone": "live-dashboard-and-audit-ui",
+        "next_milestone": "live-postgresql-and-pgvector-runtime-verification",
     }
 
 
@@ -106,4 +106,17 @@ def case_audit_endpoint(case_id: str) -> dict[str, Any]:
         "case_id": case_id,
         "events": payload["audit_timeline"],
         "case": payload["case"],
+    }
+
+
+@app.get("/api/cases/{case_id}/recommendation")
+def case_recommendation_endpoint(case_id: str) -> dict[str, Any]:
+    try:
+        payload = case_detail_payload(case_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=f"case '{case_id}' not found") from exc
+    return {
+        "case_id": case_id,
+        "case": payload["case"],
+        "recommendation": payload["case"]["recommendation"],
     }

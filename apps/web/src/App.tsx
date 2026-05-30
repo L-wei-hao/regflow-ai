@@ -37,7 +37,27 @@ type CaseCard = {
   policy_tag_count: number
   citation_count: number
   latest_audit_event: AuditEvent | null
+  recommendation: CaseRecommendation
   risk_posture: string
+}
+
+type CaseRecommendation = {
+  case_id: string
+  question: string
+  outcome: string
+  confidence: number
+  reasoning: string
+  escalation_required: boolean
+  retrieved_chunks: Array<{
+    source: string
+    title: string
+    excerpt: string
+    recommended_outcome: string
+    escalation_required: boolean
+    score: number
+    matched_terms: string[]
+  }>
+  citations: Array<{ source: string; excerpt: string }>
 }
 
 type AuditEvent = {
@@ -359,6 +379,19 @@ function App() {
                 <SummaryItem label="Workflow" value={selectedCase.workflow_id} />
                 <SummaryItem label="Status" value={selectedCase.status_label} />
                 <SummaryItem label="Recommendation" value={selectedCase.ai_outcome ? formatLabel(selectedCase.ai_outcome) : 'Pending'} />
+              </div>
+
+              <div className="summary-block">
+                <h3>Grounded recommendation</h3>
+                <p>{formatLabel(selectedCase.recommendation.outcome)} · {Math.round(selectedCase.recommendation.confidence * 100)}% confidence</p>
+                <p>{selectedCase.recommendation.reasoning}</p>
+                <div className="status-tags">
+                  {selectedCase.recommendation.retrieved_chunks.slice(0, 3).map((chunk) => (
+                    <span key={`${chunk.source}-${chunk.title}`} className="mini-pill">
+                      {chunk.title} · {chunk.score}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="summary-block">

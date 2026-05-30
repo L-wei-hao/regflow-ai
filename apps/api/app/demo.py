@@ -16,6 +16,7 @@ from app.domain import (
     WorkflowStepType,
     WorkflowTemplate,
 )
+from app.knowledge import build_case_recommendation
 from app.repository import Database, DatabaseConfig, RegFlowRepository
 from app.service import RegFlowService
 
@@ -211,6 +212,7 @@ def workflow_to_payload(workflow: WorkflowTemplate) -> dict[str, Any]:
 
 def case_to_payload(case: CaseRecord, audit_events: list[AuditEvent] | None = None) -> dict[str, Any]:
     latest_audit = audit_events[-1].to_dict() if audit_events else None
+    recommendation = build_case_recommendation(case)
     return {
         **case.to_record(),
         "status_label": humanize(case.status.value),
@@ -218,6 +220,7 @@ def case_to_payload(case: CaseRecord, audit_events: list[AuditEvent] | None = No
         "policy_tag_count": len(case.policy_tags),
         "citation_count": len(case.citations),
         "latest_audit_event": latest_audit,
+        "recommendation": recommendation,
         "risk_posture": {
             CaseStatus.INTAKE_SUBMITTED: "intake",
             CaseStatus.IN_REVIEW: "in_review",

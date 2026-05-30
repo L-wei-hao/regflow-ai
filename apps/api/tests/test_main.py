@@ -62,6 +62,18 @@ class ApiMainTests(unittest.TestCase):
         self.assertGreaterEqual(len(payload["events"]), 1)
         self.assertEqual(payload["case_id"], "case-001")
 
+    def test_case_recommendation_endpoint_returns_grounded_evidence(self) -> None:
+        client = TestClient(app)
+
+        response = client.get("/api/cases/case-001/recommendation")
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["case_id"], "case-001")
+        self.assertGreaterEqual(payload["recommendation"]["confidence"], 0.4)
+        self.assertGreaterEqual(len(payload["recommendation"]["retrieved_chunks"]), 1)
+        self.assertGreaterEqual(len(payload["recommendation"]["citations"]), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

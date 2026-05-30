@@ -80,7 +80,7 @@ npm run dev
 
 ```bash
 cd apps/api
-PYTHONPATH=. /usr/bin/python3 -m unittest discover -s tests -p 'test_*.py' -v
+PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
 ### 3) Run the Python services in a virtualenv
@@ -124,7 +124,7 @@ GitHub Actions runs on every push and pull request:
 
 ### Next
 - [ ] Live PostgreSQL + pgvector runtime verification
-- [ ] Retrieval pipeline and citations
+- [x] Retrieval pipeline and citations
 - [ ] Production deployment over HTTPS
 
 ## Resume angle

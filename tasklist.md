@@ -15,7 +15,7 @@
 - [x] Wire the UI to live API data
 
 ## Phase 3 — AI differentiation
-- [ ] Add retrieval-augmented recommendations with citations
+- [x] Add retrieval-augmented recommendations with citations
 - [ ] Add policy/document ingestion pipelines
 - [ ] Add evaluation and confidence scoring for recommendations
 - [ ] Show human review fallback for high-risk actions
