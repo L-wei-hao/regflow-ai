@@ -1,0 +1,111 @@
+.page-shell {
+  display: grid;
+  gap: 2rem;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.hero-section {
+  padding: 2rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.18), transparent 26%),
+    rgba(15, 23, 42, 0.86);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+.eyebrow,
+.panel-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: #93c5fd;
+  margin-bottom: 0.75rem;
+}
+
+.hero-copy {
+  max-width: 50rem;
+  font-size: 1.1rem;
+}
+
+.hero-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.primary-action,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.primary-action {
+  background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+  color: white;
+  text-decoration: none;
+}
+
+.status-pill {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(15, 23, 42, 0.42);
+  color: #cbd5e1;
+}
+
+.section-grid,
+.two-column-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.section-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.two-column-layout {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.info-card,
+.panel {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.78);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.info-card h2,
+.panel h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.panel ul,
+.panel ol {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.panel li + li {
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .hero-section,
+  .info-card,
+  .panel {
+    padding: 1.25rem;
+  }
+}

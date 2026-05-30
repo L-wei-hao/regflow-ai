@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: regflow-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-regflow}
+      POSTGRES_USER: ${POSTGRES_USER:-regflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-regflow}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-regflow} -d ${POSTGRES_DB:-regflow}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./apps/api
+    container_name: regflow-api
+    environment:
+      APP_NAME: RegFlow API
+      APP_ENV: development
+      DATABASE_URL: ${DATABASE_URL:-postgresql://regflow:${POSTGRES_PASSWORD:-regflow}@postgres:5432/${POSTGRES_DB:-regflow}}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ./infra/docker/init:/bootstrap:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ai-orchestrator:
+    build:
+      context: ./apps/ai-orchestrator
+    container_name: regflow-ai-orchestrator
+    environment:
+      APP_NAME: RegFlow AI Orchestrator
+      APP_ENV: development
+      DATABASE_URL: ${DATABASE_URL:-postgresql://regflow:${POSTGRES_PASSWORD:-regflow}@postgres:5432/${POSTGRES_DB:-regflow}}
+    ports:
+      - "${AI_ORCHESTRATOR_PORT:-8001}:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
