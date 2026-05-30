@@ -114,13 +114,17 @@ GitHub Actions runs on every push and pull request:
 
 ## Roadmap
 
+### Done
+- [x] Authentication and RBAC
+- [x] Case and workflow CRUD services
+- [x] Human approval queue
+- [x] Audit trail backend
+
+### Next
 - [ ] Live PostgreSQL + pgvector runtime verification
-- [ ] Authentication and RBAC
-- [ ] Case and workflow CRUD API
-- [ ] Retrieval pipeline with cited recommendations
-- [ ] Human approval queue UI
-- [ ] Audit timeline and activity feed
-- [ ] Production HTTPS deployment
+- [ ] Retrieval pipeline and citations
+- [ ] Audit timeline UI
+- [ ] Production deployment over HTTPS
 
 ## Resume angle
 

@@ -37,6 +37,7 @@ class ActorType(str, Enum):
 
 
 class AuditAction(str, Enum):
+    CASE_CREATED = "case_created"
     CASE_STATUS_CHANGED = "case_status_changed"
     AI_RECOMMENDATION_CAPTURED = "ai_recommendation_captured"
     WORKFLOW_REGISTERED = "workflow_registered"
@@ -244,6 +245,46 @@ class AuditEvent:
                 "to_status": to_status.value,
                 "comment": comment,
             },
+        )
+
+    @classmethod
+    def for_case_created(
+        cls,
+        event_id: str,
+        case_id: str,
+        actor_id: str,
+        actor_type: ActorType,
+        workflow_id: str,
+    ) -> "AuditEvent":
+        return cls(
+            event_id=event_id,
+            entity_type="case",
+            entity_id=case_id,
+            action=AuditAction.CASE_CREATED,
+            actor_id=actor_id,
+            actor_type=actor_type,
+            occurred_at=datetime.now(UTC),
+            details={"workflow_id": workflow_id},
+        )
+
+    @classmethod
+    def for_workflow_registered(
+        cls,
+        event_id: str,
+        workflow_id: str,
+        actor_id: str,
+        actor_type: ActorType,
+        workflow_name: str,
+    ) -> "AuditEvent":
+        return cls(
+            event_id=event_id,
+            entity_type="workflow",
+            entity_id=workflow_id,
+            action=AuditAction.WORKFLOW_REGISTERED,
+            actor_id=actor_id,
+            actor_type=actor_type,
+            occurred_at=datetime.now(UTC),
+            details={"workflow_name": workflow_name},
         )
 
     def to_dict(self) -> dict[str, Any]:

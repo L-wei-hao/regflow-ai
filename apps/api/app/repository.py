@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-from app.domain import AuditEvent, CaseRecord, WorkflowStep, WorkflowTemplate
+from app.domain import AuditEvent, CaseRecord, CaseStatus, WorkflowStep, WorkflowTemplate
 
 DatabaseEngine = Literal["sqlite", "postgres"]
 
@@ -287,6 +287,17 @@ class RegFlowRepository:
             ],
         )
 
+    def list_workflows(self) -> list[WorkflowTemplate]:
+        with self.database.connect() as connection:
+            workflow_rows = connection.execute(
+                "SELECT workflow_id, name, version, regulated FROM workflow_templates ORDER BY workflow_id ASC"
+            ).fetchall()
+        return [
+            self.get_workflow(row["workflow_id"])
+            for row in workflow_rows
+            if self.get_workflow(row["workflow_id"]) is not None
+        ]
+
     def save_case(self, case: CaseRecord) -> None:
         payload = case.to_record()
         with self.database.connect() as connection:
@@ -368,6 +379,36 @@ class RegFlowRepository:
                 "reviewer_comment": row["reviewer_comment"],
             }
         )
+
+    def list_cases(self, status: CaseStatus | None = None) -> list[CaseRecord]:
+        query = "SELECT * FROM case_records"
+        params: tuple[object, ...] = ()
+        if status is not None:
+            query += " WHERE status = ?"
+            params = (status.value,)
+        query += " ORDER BY case_id ASC"
+
+        with self.database.connect() as connection:
+            rows = connection.execute(query, params).fetchall()
+
+        return [
+            CaseRecord.from_record(
+                {
+                    "case_id": row["case_id"],
+                    "workflow_id": row["workflow_id"],
+                    "applicant_name": row["applicant_name"],
+                    "submitted_documents": json.loads(row["submitted_documents_json"]),
+                    "policy_tags": json.loads(row["policy_tags_json"]),
+                    "status": row["status"],
+                    "ai_outcome": row["ai_outcome"],
+                    "ai_summary": row["ai_summary"],
+                    "citations": json.loads(row["citations_json"]),
+                    "assigned_reviewer": row["assigned_reviewer"],
+                    "reviewer_comment": row["reviewer_comment"],
+                }
+            )
+            for row in rows
+        ]
 
     def save_audit_event(self, event: AuditEvent) -> None:
         payload = event.to_dict()

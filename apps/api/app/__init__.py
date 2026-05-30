@@ -1,3 +1,4 @@
+from app.access import Action, AccessControl, UserPrincipal, UserRole
 from app.domain import (
     ActorType,
     AuditAction,
@@ -10,8 +11,11 @@ from app.domain import (
     WorkflowTemplate,
 )
 from app.repository import Database, DatabaseConfig, RegFlowRepository
+from app.service import RegFlowService
 
 __all__ = [
+    "AccessControl",
+    "Action",
     "ActorType",
     "AuditAction",
     "AuditEvent",
@@ -21,6 +25,9 @@ __all__ = [
     "DatabaseConfig",
     "RecommendationOutcome",
     "RegFlowRepository",
+    "RegFlowService",
+    "UserPrincipal",
+    "UserRole",
     "WorkflowStep",
     "WorkflowStepType",
     "WorkflowTemplate",

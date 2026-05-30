@@ -8,9 +8,10 @@
 - [x] Add an architecture note that explains the product clearly
 
 ## Phase 2 — Product credibility
-- [ ] Implement authentication and role-based access control
-- [ ] Build real case and workflow CRUD endpoints
-- [ ] Add approval states and audit event recording
+- [x] Implement authentication and role-based access control
+- [x] Build real case and workflow CRUD services
+- [x] Add approval states and audit event recording
+- [x] Add a human approval queue
 - [ ] Wire the UI to live API data
 
 ## Phase 3 — AI differentiation
