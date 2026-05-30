@@ -98,6 +98,33 @@ pytest apps/api/tests apps/ai-orchestrator/tests -q
 docker compose up --build
 ```
 
+## Production-style HTTPS deployment with Caddy
+
+For a recruiter-facing live demo, serve the built frontend with Caddy and proxy API requests to the FastAPI service.
+
+```bash
+# Build the frontend
+cd apps/web
+npm run build
+
+# Start the API on localhost:8000
+cd ../api
+PYTHONPATH=. python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+# In another terminal, start Caddy from the repo root
+cd ../../
+export PUBLIC_HOST=YOUR_PUBLIC_IP.nip.io
+export API_UPSTREAM=127.0.0.1:8000
+export WEB_ROOT=/home/weihao95/workspace/regflow-ai/apps/web/dist
+export LOG_FILE=/home/weihao95/workspace/regflow-ai/logs/caddy.log
+sudo caddy run --config infra/caddy/Caddyfile --adapter caddyfile
+```
+
+The Caddy config:
+- serves the React build from `apps/web/dist`
+- proxies `/api/*` and `/health` to the backend
+- enables HTTPS, compression, and security headers
+
 ## Verification
 
 The repository currently includes automated checks for:
