@@ -1,44 +1,74 @@
 # RegFlow AI
 
-> AI workflow automation platform for regulated operations.
+> **AI workflow automation platform for regulated operations.**
 
-RegFlow AI is a flagship portfolio project designed to demonstrate production-style AI engineering for compliance-heavy operations. The platform combines retrieval-augmented generation (RAG), human approval gates, audit logs, document ingestion, and case management in a single monorepo.
+[![CI](https://github.com/L-wei-hao/regflow-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/L-wei-hao/regflow-ai/actions/workflows/ci.yml)
 
-## Current scaffold
+RegFlow AI is a recruiter-friendly flagship project that demonstrates how to design and ship AI systems for compliance-heavy environments: case management, workflow automation, retrieval with citations, approval gates, and auditability.
 
-- `apps/web` — React + Vite frontend for dashboards, workflows, and case review
-- `apps/api` — FastAPI control plane for cases, workflows, audit events, and approvals
-- `apps/ai-orchestrator` — FastAPI AI service for retrieval, recommendations, and explainability
-- `infra/docker` — local infrastructure assets
-- `docs/` — plans, architecture, screenshots, and project documentation
+## Why this project stands out
 
-## Product vision
+Most portfolio projects are either:
+- a generic CRUD app, or
+- a chatbot wrapped around an API.
 
-RegFlow AI helps teams safely apply AI to regulated workflows such as KYC review, policy-guided case handling, and internal operations approval flows.
+RegFlow AI is different. It shows:
+- **AI + enterprise workflow design**
+- **regulated-domain thinking**
+- **human-in-the-loop controls**
+- **auditability and traceability**
+- **backend + frontend + infra in one coherent product**
 
-### MVP capabilities
+That combination makes it much easier to discuss in interviews for AI integration, solutions engineering, and automation roles.
 
-1. Document ingestion into a vector-ready knowledge base
-2. Case creation and review workflow
-3. AI recommendation endpoint with grounded citations
-4. Human approval gate for sensitive decisions
-5. End-to-end audit trail
+## What it does
+
+RegFlow AI helps teams safely apply AI to workflows where decisions matter, such as:
+- KYC / onboarding review
+- policy-guided case handling
+- internal approvals
+- evidence-based operational decisions
+
+## Core product capabilities
+
+- Document ingestion into a vector-ready knowledge base
+- Case creation and review workflow
+- AI recommendation endpoint with grounded citations
+- Human approval gate for sensitive decisions
+- End-to-end audit trail
+- PostgreSQL-ready persistence with local SQLite fallback for development
+
+## Tech stack
+
+- **Frontend:** React + Vite
+- **API:** Python service layer with FastAPI-style structure
+- **AI service:** lightweight orchestrator service for retrieval/recommendations
+- **Persistence:** SQLite locally, PostgreSQL bootstrap SQL for Compose deployment
+- **Infra:** Docker Compose, GitHub Actions
 
 ## Architecture
 
 ```text
-React Web App
-   |
-   v
-FastAPI Control Plane  <----> PostgreSQL + pgvector
-   |
-   v
-AI Orchestrator Service -----> LLM / Embedding providers
+[React Web App]
+        |
+        v
+[Control Plane API] <-----> [PostgreSQL + pgvector]
+        |
+        v
+[AI Orchestrator] -----> [LLM / embedding provider]
 ```
+
+## Repository layout
+
+- `apps/web` — dashboard UI and review experience
+- `apps/api` — control plane for cases, workflows, approvals, and audit events
+- `apps/ai-orchestrator` — recommendation and retrieval scaffolding
+- `infra/docker` — local deployment assets and database bootstrap SQL
+- `docs/` — plans, architecture notes, and roadmap docs
 
 ## Local development
 
-### Web
+### 1) Run the web app
 
 ```bash
 cd apps/web
@@ -46,14 +76,14 @@ npm install
 npm run dev
 ```
 
-### API tests (current stdlib-compatible path)
+### 2) Run the API tests
 
 ```bash
 cd apps/api
 PYTHONPATH=. /usr/bin/python3 -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-### Python services (future FastAPI path)
+### 3) Run the Python services in a virtualenv
 
 ```bash
 python3 -m venv .venv
@@ -62,24 +92,49 @@ pip install -r apps/api/requirements.txt -r apps/ai-orchestrator/requirements.tx
 pytest apps/api/tests apps/ai-orchestrator/tests -q
 ```
 
-### Infra
+### 4) Run the full stack with Docker Compose
 
 ```bash
 docker compose up --build
 ```
 
-PostgreSQL bootstrap SQL is generated at:
-- `infra/docker/init/001-regflow-schema.sql`
-- `apps/api/sql/001-regflow-schema.sql`
+## Verification
 
-The API and AI orchestrator both read `DATABASE_URL`, defaulting to PostgreSQL in Compose and falling back to local SQLite when `DATABASE_URL` is absent.
+The repository currently includes automated checks for:
+- API domain logic
+- repository configuration and schema generation
+- orchestrator response shaping
+- frontend build/lint in CI
+
+## CI
+
+GitHub Actions runs on every push and pull request:
+- backend test suite
+- frontend install, lint, and build
 
 ## Roadmap
 
 - [ ] Live PostgreSQL + pgvector runtime verification
 - [ ] Authentication and RBAC
-- [ ] Case and workflow CRUD
-- [ ] Retrieval pipeline and citations
-- [ ] Human approval queue
-- [ ] Audit timeline UI
-- [ ] Production deployment over HTTPS
+- [ ] Case and workflow CRUD API
+- [ ] Retrieval pipeline with cited recommendations
+- [ ] Human approval queue UI
+- [ ] Audit timeline and activity feed
+- [ ] Production HTTPS deployment
+
+## Resume angle
+
+This repository is designed to help me explain:
+- how I design systems for regulated environments
+- how I combine AI with workflow automation responsibly
+- how I think about auditability, approval controls, and deployment
+- how I move from prototype to production-style architecture
+
+## Next improvements
+
+If you want to make this even stronger, the highest-value additions are:
+1. a short demo video or GIF
+2. a polished architecture diagram
+3. authenticated user flows and RBAC
+4. a real end-to-end approval workflow
+5. live deployed environment over HTTPS
