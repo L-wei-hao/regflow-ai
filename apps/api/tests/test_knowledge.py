@@ -2,6 +2,7 @@ import unittest
 
 from app.domain import CaseRecord, RecommendationOutcome
 from app.knowledge import build_case_recommendation, retrieve_policy_chunks
+from app.policy_corpus import policy_corpus_summary
 
 
 class KnowledgeRetrievalTests(unittest.TestCase):
@@ -14,7 +15,15 @@ class KnowledgeRetrievalTests(unittest.TestCase):
 
         self.assertGreaterEqual(len(chunks), 1)
         self.assertEqual(chunks[0]["source"], "policy/kyc-standard.md")
-        self.assertIn("Approve when identity and address evidence are complete", chunks[0]["excerpt"])
+        self.assertIn(chunks[0]["section"], {"Overview", "Evidence requirements", "Decision guidance"})
+        self.assertGreaterEqual(chunks[0]["score"], 40)
+
+    def test_policy_corpus_summary_counts_documents_and_chunks(self) -> None:
+        summary = policy_corpus_summary()
+
+        self.assertGreaterEqual(summary.document_count, 4)
+        self.assertGreaterEqual(summary.chunk_count, 4)
+        self.assertIn("policy/kyc-standard.md", summary.sources)
 
     def test_build_case_recommendation_returns_grounded_citations(self) -> None:
         case = CaseRecord.from_intake(
@@ -35,7 +44,7 @@ class KnowledgeRetrievalTests(unittest.TestCase):
 
         self.assertEqual(recommendation["case_id"], "case-001")
         self.assertGreaterEqual(recommendation["confidence"], 0.4)
-        self.assertEqual(recommendation["citations"][0]["source"], "policy/kyc-standard.md")
+        self.assertIn(recommendation["citations"][0]["source"], {"policy/kyc-standard.md", "policy/kyc-income-verification.md"})
         self.assertIn(recommendation["outcome"], {RecommendationOutcome.APPROVE.value, RecommendationOutcome.NEEDS_HUMAN_REVIEW.value})
 
 

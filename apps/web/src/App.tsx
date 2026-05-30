@@ -83,6 +83,12 @@ type DashboardResponse = {
     escalated_cases: number
   }
   status_breakdown: MetricMap
+  policy_library: {
+    policy_dir: string
+    document_count: number
+    chunk_count: number
+    sources: string[]
+  }
   workflows: WorkflowCard[]
   cases: CaseCard[]
   pending_approvals: CaseCard[]
@@ -99,6 +105,7 @@ type CaseDetailResponse = {
 const capabilityBullets = [
   'Policy-aware case review with human approval gates',
   'Traceable AI recommendations with cited evidence',
+  'Markdown policy docs are ingested into searchable chunks',
   'Workflow templates that show regulated-domain thinking',
   'Recruiter-ready architecture, docs, and CI polish',
 ]
@@ -296,6 +303,20 @@ function App() {
               <li key={bullet}>{bullet}</li>
             ))}
           </ul>
+          <div className="summary-block">
+            <h3>Ingested policy corpus</h3>
+            <p>
+              {dashboard?.policy_library.document_count ?? '—'} markdown policies, {dashboard?.policy_library.chunk_count ?? '—'} searchable chunks, loaded from{' '}
+              {dashboard?.policy_library.policy_dir ?? 'the repo'}.
+            </p>
+            <div className="status-tags">
+              {dashboard?.policy_library.sources?.map((source) => (
+                <span key={source} className="mini-pill">
+                  {source}
+                </span>
+              ))}
+            </div>
+          </div>
         </article>
 
         <article className="panel">

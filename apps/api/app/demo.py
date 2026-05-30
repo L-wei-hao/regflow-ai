@@ -17,6 +17,7 @@ from app.domain import (
     WorkflowTemplate,
 )
 from app.knowledge import build_case_recommendation
+from app.policy_corpus import policy_corpus_summary
 from app.repository import Database, DatabaseConfig, RegFlowRepository
 from app.service import RegFlowService
 
@@ -274,6 +275,7 @@ def dashboard_payload() -> dict[str, Any]:
             "escalated_cases": status_counts[CaseStatus.ESCALATED.value],
         },
         "status_breakdown": status_counts,
+        "policy_library": policy_corpus_summary().to_dict(),
         "workflows": workflow_cards,
         "cases": case_cards,
         "pending_approvals": [case_to_payload(case, service.get_case_audit_trail(admin, case.case_id)) for case in pending_approvals],

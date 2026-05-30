@@ -16,7 +16,7 @@
 
 ## Phase 3 — AI differentiation
 - [x] Add retrieval-augmented recommendations with citations
-- [ ] Add policy/document ingestion pipelines
+- [x] Add policy/document ingestion pipelines
 - [ ] Add evaluation and confidence scoring for recommendations
 - [ ] Show human review fallback for high-risk actions
 

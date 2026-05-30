@@ -31,7 +31,7 @@ RegFlow AI helps teams safely apply AI to workflows where decisions matter, such
 
 ## Core product capabilities
 
-- Document ingestion into a vector-ready knowledge base
+- Markdown policy ingestion pipeline that chunks documents for retrieval
 - Case creation and review workflow
 - AI recommendation endpoint with grounded citations
 - Human approval gate for sensitive decisions
@@ -121,10 +121,11 @@ GitHub Actions runs on every push and pull request:
 - [x] Audit trail backend
 - [x] Live dashboard wired to the API
 - [x] Case detail and audit timeline UI
+- [x] Retrieval pipeline and citations
+- [x] Policy/document ingestion pipelines
 
 ### Next
 - [ ] Live PostgreSQL + pgvector runtime verification
-- [x] Retrieval pipeline and citations
 - [ ] Production deployment over HTTPS
 
 ## Resume angle

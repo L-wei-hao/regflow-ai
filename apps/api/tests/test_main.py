@@ -51,6 +51,19 @@ class ApiMainTests(unittest.TestCase):
         self.assertGreaterEqual(len(payload["cases"]), 1)
         self.assertGreaterEqual(len(payload["pending_approvals"]), 1)
         self.assertGreaterEqual(len(payload["recent_audit_events"]), 1)
+        self.assertGreaterEqual(payload["policy_library"]["document_count"], 1)
+        self.assertGreaterEqual(payload["policy_library"]["chunk_count"], 1)
+
+    def test_policy_endpoint_returns_ingestion_summary(self) -> None:
+        client = TestClient(app)
+
+        response = client.get("/api/policies")
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertGreaterEqual(payload["document_count"], 1)
+        self.assertGreaterEqual(payload["chunk_count"], 1)
+        self.assertIn("policy/kyc-standard.md", payload["sources"])
 
     def test_case_audit_endpoint_returns_timeline(self) -> None:
         client = TestClient(app)

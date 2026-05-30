@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.demo import case_detail_payload, dashboard_payload
 from app.repository import DatabaseConfig
+from app.policy_corpus import policy_corpus_summary
 
 SERVICE_NAME = "regflow-api"
 ENVIRONMENT = "development"
@@ -48,6 +49,7 @@ def root_metadata() -> dict[str, Any]:
             "auditability",
             "approvals",
             "postgres-ready-persistence",
+            "policy-document-ingestion",
         ],
         "database_engine": database_config.engine,
         "database_bootstrap_path": str(POSTGRES_BOOTSTRAP_PATH),
@@ -77,6 +79,11 @@ def workflows_endpoint() -> dict[str, Any]:
         "workflows": payload["workflows"],
         "metrics": payload["metrics"],
     }
+
+
+@app.get("/api/policies")
+def policies_endpoint() -> dict[str, Any]:
+    return policy_corpus_summary().to_dict()
 
 
 @app.get("/api/cases")

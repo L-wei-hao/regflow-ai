@@ -37,6 +37,7 @@ RegFlow AI is built to show how AI can be used safely in regulated operations wi
   - Retrieval-driven recommendation generation
   - Citation selection
   - Suggestion shaping for human review
+  - Markdown policy document ingestion and chunking
 
 - **Database layer**
   - SQLite for local development and tests
@@ -49,6 +50,7 @@ User action
   -> Web app
   -> Control plane API
   -> Database / audit log
+  -> Policy document ingestion and retrieval
   -> AI orchestrator (if recommendation is needed)
   -> Human review / approval
   -> Final state change recorded
