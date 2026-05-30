@@ -27,13 +27,26 @@ body {
   min-width: 320px;
 }
 
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  background: none;
+}
+
 #root {
-  width: min(1120px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
 }
 
 h1,
 h2,
+h3,
 p,
 ul,
 ol {
@@ -41,7 +54,8 @@ ol {
 }
 
 h1,
- h2 {
+h2,
+h3 {
   color: #f8fafc;
 }
 

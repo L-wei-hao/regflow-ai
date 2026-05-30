@@ -12,7 +12,7 @@
 - [x] Build real case and workflow CRUD services
 - [x] Add approval states and audit event recording
 - [x] Add a human approval queue
-- [ ] Wire the UI to live API data
+- [x] Wire the UI to live API data
 
 ## Phase 3 — AI differentiation
 - [ ] Add retrieval-augmented recommendations with citations

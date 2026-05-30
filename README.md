@@ -119,11 +119,12 @@ GitHub Actions runs on every push and pull request:
 - [x] Case and workflow CRUD services
 - [x] Human approval queue
 - [x] Audit trail backend
+- [x] Live dashboard wired to the API
+- [x] Case detail and audit timeline UI
 
 ### Next
 - [ ] Live PostgreSQL + pgvector runtime verification
 - [ ] Retrieval pipeline and citations
-- [ ] Audit timeline UI
 - [ ] Production deployment over HTTPS
 
 ## Resume angle
